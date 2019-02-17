@@ -109,9 +109,9 @@ class helper:
 			logging.debug('Image is fullscreen, no reframing needed')
 			return False
 
-		if padding < 20 and not autoChoose:
-			logging.debug('That\'s less than 20px so skip reframing (%dx%d => %dx%d)', width, height, adjWidth, adjHeight)
-			return False
+		#if padding < 20 and not autoChoose:
+		#	logging.debug('That\'s less than 20px so skip reframing (%dx%d => %dx%d)', width, height, adjWidth, adjHeight)
+		#	return False
 
 		if padding < 60 and autoChoose:
 			zoomOnly = True

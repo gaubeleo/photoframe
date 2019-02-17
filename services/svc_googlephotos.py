@@ -192,7 +192,7 @@ class GooglePhotos(BaseService):
     '''
     return not (data['status'] == 403 and 'Enable it by visiting' in data['content'])
 
-  def getUrlFromImages(self, types, displaySize, images):
+  def getUrlFromImages(self, types, displaySize, images, force_orientation=0):
     # Next, pick an image
     count = len(images)
     offset = random.SystemRandom().randint(0,count-1)
@@ -211,12 +211,26 @@ class GooglePhotos(BaseService):
         oh = float(entry['mediaMetadata']['height'])
         ar = ow/oh
 
-        if ow > displaySize['width']:
-          width = displaySize['width']
-          height = int(float(displaySize['width']) / ar)
+        dar = float(displaySize['width'])/float(displaySize['height'])
+
+        # Skip images with wrong orientation
+        if ar > 1 and force_orientation == 1: #if landscape
+          logging.debug('Unsupported orientation: %s' % ("Landscape"))
+          continue
+        elif ar <= 1 and force_orientation == 0: #if landscape
+          logging.debug('Unsupported orientation: %s' % ("Portrait/Square"))
+          continue
+
+        if ow > displaySize['width'] and oh > displaySize['height']:
+          if ar <= dar:
+            width = displaySize['width']
+            height = int(float(displaySize['width']) / ar)
+          else:
+            width = int(float(displaySize['height']) * ar)
+            height = displaySize['height']
         else:
-          width = int(float(displaySize['height']) * ar)
-          height = displaySize['height']
+          width = ow
+          height = oh
 
         return entry['mimeType'], entry['baseUrl'] + "=w" + str(width) + "-h" + str(height), entry['productUrl']
       else:

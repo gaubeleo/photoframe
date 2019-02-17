@@ -39,7 +39,7 @@ function rebootWatch() {
 
 function reloadScreen() {
   $('#screen').attr('src', "/details/current?" + new Date().getTime())
-  setTimeout(reloadScreen, 30000);
+  setTimeout(reloadScreen, 1000);
 }
 reloadScreen();
 
