@@ -1,0 +1,2 @@
+service frame stop
+/root/photoframe/frame.py
