@@ -65,6 +65,7 @@ class settings:
 			'display-driver' : 'none',
 			'display-special' : None,
 			'imagesizing' : 'blur',
+			"orientation" : 'both',
 		}
 
 	def load(self):

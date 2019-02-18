@@ -44,12 +44,34 @@ class display:
         clean = line.strip()
         if clean == '':
           continue
-        if clean.startswith('display_rotate='):
+        if clean.startswith('display_rotate'):
           if clean.endswith('1') or clean.endswith('3'):
             rotate = True
           else:
             rotate = False
     return rotate
+
+  def rotate(self, orientation):
+    if orientation == "both":
+      return
+    # TODO: This should be handled centrally
+    with open('/boot/config.txt', 'r') as f:
+      data = f.readlines()
+
+    done=False
+    with open("/boot/config.txt", "w") as f:
+      for line in data:
+        clean = line.strip()
+        if clean.startswith("display_rotate"):
+          if orientation == "portrait" and not done:
+            f.write("display_rotate=1\n")
+            done=True
+        else:
+          f.write(clean+"\n")
+
+      if not done and orientation == "portrait":
+        f.write("display_rotate=1")
+
 
   def __init__(self, use_emulator=False):
     self.void = open(os.devnull, 'wb')

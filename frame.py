@@ -231,6 +231,9 @@ def cfg_keyvalue(key, value):
       abort(404)
       return
     settings.setUser(key, value)
+
+    if key in ['orientation']:
+      display.rotate(value)
     if key in ['display-driver']:
       drv = settings.getUser('display-driver')
       if drv == 'none':
@@ -508,6 +511,8 @@ drivers = drivers()
 display = display(cmdline.emulatefb)
 
 if not settings.load():
+  settings.setUser("orientation", "both")
+  
   # First run, grab display settings from current mode
   current = display.current()
   if current is not None:

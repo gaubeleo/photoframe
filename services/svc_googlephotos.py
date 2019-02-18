@@ -192,7 +192,7 @@ class GooglePhotos(BaseService):
     '''
     return not (data['status'] == 403 and 'Enable it by visiting' in data['content'])
 
-  def getUrlFromImages(self, types, displaySize, images, force_orientation=0):
+  def getUrlFromImages(self, types, displaySize, images):
     # Next, pick an image
     count = len(images)
     offset = random.SystemRandom().randint(0,count-1)
@@ -214,11 +214,11 @@ class GooglePhotos(BaseService):
         dar = float(displaySize['width'])/float(displaySize['height'])
 
         # Skip images with wrong orientation
-        if ar > 1 and force_orientation == 1: #if landscape
-          logging.debug('Unsupported orientation: %s' % ("Landscape"))
-          continue
-        elif ar <= 1 and force_orientation == 0: #if landscape
+        if ar <= 1 and displaySize['orientation'] == "landscape":
           logging.debug('Unsupported orientation: %s' % ("Portrait/Square"))
+          continue
+        elif ar > 1 and displaySize['orientation'] == "portrait":
+          logging.debug('Unsupported orientation: %s' % ("Landscape"))
           continue
 
         if ow > displaySize['width'] and oh > displaySize['height']:

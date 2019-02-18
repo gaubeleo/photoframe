@@ -39,7 +39,7 @@ function rebootWatch() {
 
 function reloadScreen() {
   $('#screen').attr('src', "/details/current?" + new Date().getTime())
-  setTimeout(reloadScreen, 1000);
+  setTimeout(reloadScreen, 10000);
 }
 reloadScreen();
 
@@ -95,6 +95,21 @@ $("select[name=imagesizing]").change(function() {
     url:"/setting/" + $(this).attr('name') + "/" + encodeURIComponent($(this).val()),
     type:"PUT"
   }).done(function(){
+  });
+});
+
+$("select[name=orientation]").change(function() {
+  var value = $(this).val()
+  $.ajax({
+    url:"/setting/" + $(this).attr('name') + "/" + encodeURIComponent($(this).val()),
+    type:"PUT"
+  }).done(function(){
+    if (value != "both" && confirm("Changing display orientation requires a reboot! Do you want to reboot now?")) {
+      $.ajax({
+        url:"/maintenance/reboot"
+      });
+      rebootWatch();
+    }
   });
 });
 

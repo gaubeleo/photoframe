@@ -1,5 +1,5 @@
 <h1><a href="https://github.com/mrworf/photoframe">PhotoFrame Configuration</a></h1>
-<img class="thumbnail" alt="On screen now" title="Realtime view, updates every 30s" src="/details/current" id="screen">
+<img class="thumbnail" alt="On screen now" title="Realtime view, updates every 10s" src="/details/current" id="screen">
 <div class="settings">
 	<div>
 		Options
@@ -17,6 +17,15 @@
 		{{else}}
 			No display connected or detected
 		{{/if}}
+		<br>
+		Force display orienation
+		<select name="orientation">
+			{{#select settings.orientation}}
+			<option value="both">No</option>
+			<option value="landscape">Landscape</option>
+			<option value="portrait">Portrait</option>
+			{{/select}}
+		</select>
 		<br>
 		Select custom display driver
 		<select name="display-driver">
